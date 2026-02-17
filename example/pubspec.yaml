@@ -1,0 +1,9 @@
+name: khmer_lunar_chhankitek_example
+publish_to: "none"
+
+environment:
+  sdk: ^3.11.0
+
+dependencies:
+  khmer_lunar_chhankitek:
+    path: ../

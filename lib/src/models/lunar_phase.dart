@@ -1,0 +1,1 @@
+enum LunarPhase { waxing, waning }
