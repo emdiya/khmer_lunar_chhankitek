@@ -1,3 +1,10 @@
+## 1.0.1
+
+- Refined `KhmerLunar.isKorDay` to only mark days before major sil observances
+  (full/new moon), excluding quarter sil (8th-day) transitions.
+- Added a regression test for `2026-03-10` to ensure `7 roch` before a quarter
+  sil day is not returned as `ថ្ងៃកោរ`.
+
 ## 1.0.0
 
 - Initial public release.

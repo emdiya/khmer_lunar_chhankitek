@@ -36,6 +36,13 @@ void main() {
       expect(KhmerLunar.isKorDay(DateTime(2000, 1, 6)), isFalse);
     });
 
+    test('7 roch before quarter sil is not kor day', () {
+      final date = DateTime(2026, 3, 10);
+      final nextDate = DateTime(2026, 3, 11);
+      expect(KhmerLunar.isKorDay(date), isFalse);
+      expect(KhmerLunar.isSilDay(nextDate), isTrue);
+    });
+
     test('14 roch at month-end is treated as sil day', () {
       final date = DateTime(2026, 4, 16);
       expect(KhmerLunar.isSilDay(date), isTrue);

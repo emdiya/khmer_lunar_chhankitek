@@ -35,7 +35,10 @@ class KhmerLunar {
     }
 
     if (moonCount == 14) {
-      final tomorrow = day(normalized.add(const Duration(days: 1)), options: options);
+      final tomorrow = day(
+        normalized.add(const Duration(days: 1)),
+        options: options,
+      );
       final tomorrowMoonCount = ((tomorrow.lunarDay - 1) % 15) + 1;
       return tomorrow.phase == LunarPhase.waxing && tomorrowMoonCount == 1;
     }
@@ -43,7 +46,10 @@ class KhmerLunar {
     return false;
   }
 
-  /// Returns true when the given date is the day before Uposatha (ថ្ងៃកោរ).
+  /// Returns true when the given date is the day before major sil day (ថ្ងៃកោរ).
+  ///
+  /// Major sil days are full/new moon observances (15th day, or 14 roch when
+  /// it rolls over to 1 kert next day). Quarter sil days (8th day) are excluded.
   static bool isKorDay(
     DateTime date, {
     KhmerLunarOptions options = const KhmerLunarOptions(),
@@ -52,10 +58,32 @@ class KhmerLunar {
     if (isSilDay(normalized, options: options)) {
       return false;
     }
-    return isSilDay(
-      normalized.add(const Duration(days: 1)),
-      options: options,
-    );
+    final tomorrow = normalized.add(const Duration(days: 1));
+    return _isMajorSilDay(tomorrow, options: options);
+  }
+
+  static bool _isMajorSilDay(
+    DateTime date, {
+    KhmerLunarOptions options = const KhmerLunarOptions(),
+  }) {
+    final normalized = DateTime(date.year, date.month, date.day);
+    final today = day(normalized, options: options);
+    final moonCount = ((today.lunarDay - 1) % 15) + 1;
+
+    if (moonCount == 15) {
+      return true;
+    }
+
+    if (moonCount == 14) {
+      final tomorrow = day(
+        normalized.add(const Duration(days: 1)),
+        options: options,
+      );
+      final tomorrowMoonCount = ((tomorrow.lunarDay - 1) % 15) + 1;
+      return tomorrow.phase == LunarPhase.waxing && tomorrowMoonCount == 1;
+    }
+
+    return false;
   }
 
   static List<LunarDay> month(
