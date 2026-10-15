@@ -32,7 +32,7 @@ Khmer lunar date calculation, Khmer New Year helpers, and Khmer date formatting 
 
 ```yaml
 dependencies:
-  khmer_lunar_chhankitek: ^1.0.0
+  khmer_lunar_chhankitek: ^1.0.1
 ```
 
 ## Quick Start
@@ -67,7 +67,7 @@ Example output:
 ```text
 ថ្ងៃព្រហស្បតិ៍ ១៤រោច ខែចេត្រ ឆ្នាំមមីរ អដ្ឋស័ក ព.ស.២៥៦៩
 ថ្ងៃទី១៦ ខែមេសា ឆ្នាំ២០២៦
-Uposatha: false
+Uposatha: true
 Days this month: 30
 ថ្ងៃសីល: true
 ថ្ងៃកោរ: false
@@ -126,3 +126,23 @@ dayLerngSak: 3
 dart analyze
 dart test
 ```
+
+## Calendar conventions
+
+All lunar APIs use the same traditional Chhankitek calculation. `isUposatha`
+and `isSilDay` identify the 8th and 15th waxing days, the 8th waning day,
+and the last waning day (14 or 15). Kor days precede full/new moon observances.
+Buddhist Era changes on the day after the full moon of Pisakh.
+
+Inputs are civil dates: their year, month, and day fields are used without
+converting time zones; the time of day is ignored, including for the formatted
+zodiac/era. Convert an instant into the intended local date before calling.
+Internal date arithmetic uses UTC to avoid daylight-saving shifts.
+`LunarDay.date` remains a local midnight date.
+
+`LunarMonth.index` is 1-based: regular months use 1–12, first Asadh uses 13,
+and second Asadh uses 14. Both repeated Asadh months have `isLeapMonth: true`.
+`lunarDay` is 1–15 for waxing and 16–29/30 for waning.
+
+The supported civil-date range is 1900–2100 for all lunar conversion and
+observance APIs, including `Chhankitek.toKhmerLunarDateFormat`.

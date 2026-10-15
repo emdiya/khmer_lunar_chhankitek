@@ -30,7 +30,7 @@ void main() {
   );
   final specificKhmerDate = Chhankitek.toKhmerLunarDateFormat(specificDate);
 
-  print('=== Specific Day (2026-04-17) ===');
+  print('=== Specific Day (2026-05-31) ===');
   print(specificKhmerDate.toString());
   print(formatKhmerGregorianDate(specificDate));
   print('Uposatha: ${specificDay.isUposatha}');

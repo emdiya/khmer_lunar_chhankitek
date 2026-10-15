@@ -65,13 +65,12 @@ class KhmerNewYearCal {
   bool _getIsChantreathimeas(int jsYear) {
     final infoOfYear = _getInfo(jsYear);
     final infoOfNextYear = _getInfo(jsYear + 1);
-    final infoOfPreviousYear = _getInfo(jsYear);
+    final infoOfPreviousYear = _getInfo(jsYear - 1);
     final has366Day = _getHas366Day(jsYear);
     return ((has366Day && infoOfYear.avaman < 127) ||
         (!(infoOfYear.avaman == 137 && infoOfNextYear.avaman == 0) &&
             ((!has366Day && infoOfYear.avaman < 138) ||
-                (infoOfPreviousYear.avaman == 137 &&
-                    infoOfYear.avaman == 0))));
+                (infoOfPreviousYear.avaman == 137 && infoOfYear.avaman == 0))));
   }
 
   bool _jesthHas30(int jsYear) {
@@ -122,7 +121,8 @@ class KhmerNewYearCal {
     }
 
     final phol = _getPhol(khan, pouichalip);
-    final pholAsLibda = (30 * 60 * phol.reasey) + (60 * phol.angsar) + phol.libda;
+    final pholAsLibda =
+        (30 * 60 * phol.reasey) + (60 * phol.angsar) + phol.libda;
     final sunInaugurationAsLibda = kaen <= 5
         ? sunAverageAsLibda - pholAsLibda
         : sunAverageAsLibda + pholAsLibda;
@@ -146,7 +146,12 @@ class KhmerNewYearCal {
       final angsar = (sunInfo.sunInaugurationAsLibda % (30 * 60)) ~/ 60;
       final libda = sunInfo.sunInaugurationAsLibda % 60;
       newYearDaySotins.add(
-        NewYearDaySotins(sotin: i, reasey: reasey, angsar: angsar, libda: libda),
+        NewYearDaySotins(
+          sotin: i,
+          reasey: reasey,
+          angsar: angsar,
+          libda: libda,
+        ),
       );
     }
     return newYearDaySotins;
@@ -179,7 +184,7 @@ class KhmerNewYearCal {
     final l3 = <int>{6, 7, 8};
     final l4 = <int>{9, 10, 11};
     if (l1.contains(kaen)) {
-      rs = kaen;
+      rs = leftOver;
     } else if (l2.contains(kaen)) {
       rs = (30 * 60 * 6) - leftOver;
     } else if (l3.contains(kaen)) {
@@ -216,7 +221,11 @@ class KhmerNewYearCal {
     }
 
     final q = (pouichalip * multiplicity) ~/ 900;
-    return Phol(reasey: 0, angsar: (q + chhaya) ~/ 60, libda: (q + chhaya) % 60);
+    return Phol(
+      reasey: 0,
+      angsar: (q + chhaya) ~/ 60,
+      libda: (q + chhaya) % 60,
+    );
   }
 
   NewYearTime _getNewYearTime() {

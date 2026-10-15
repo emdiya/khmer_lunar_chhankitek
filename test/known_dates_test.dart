@@ -3,15 +3,15 @@ import 'package:test/test.dart';
 
 void main() {
   group('known dates', () {
-    test('new moon window near reference date', () {
-      final day = KhmerLunar.day(DateTime(2000, 1, 6));
+    test('new moon on the last day of a short lunar month', () {
+      final day = KhmerLunar.day(DateTime(2026, 4, 16));
       expect(day.isNewMoon, isTrue);
       expect(day.isFullMoon, isFalse);
       expect(day.isUposatha, isTrue);
     });
 
-    test('full moon window near mid-cycle date', () {
-      final day = KhmerLunar.day(DateTime(2000, 1, 21));
+    test('full moon on 15 kert', () {
+      final day = KhmerLunar.day(DateTime(2026, 1, 3));
       expect(day.isFullMoon, isTrue);
       expect(day.isNewMoon, isFalse);
       expect(day.isUposatha, isTrue);
@@ -27,13 +27,13 @@ void main() {
 
     test('isSilDay follows strict Khmer sil pattern', () {
       expect(KhmerLunar.isSilDay(DateTime(2026, 4, 17)), isFalse);
-      expect(KhmerLunar.isSilDay(DateTime(2000, 1, 21)), isTrue);
+      expect(KhmerLunar.isSilDay(DateTime(2026, 1, 3)), isTrue);
     });
 
     test('isKorDay returns true one day before Uposatha', () {
-      expect(KhmerLunar.isKorDay(DateTime(2000, 1, 5)), isTrue);
-      expect(KhmerLunar.isKorDay(DateTime(2000, 1, 4)), isFalse);
-      expect(KhmerLunar.isKorDay(DateTime(2000, 1, 6)), isFalse);
+      expect(KhmerLunar.isKorDay(DateTime(2026, 4, 15)), isTrue);
+      expect(KhmerLunar.isKorDay(DateTime(2026, 4, 14)), isFalse);
+      expect(KhmerLunar.isKorDay(DateTime(2026, 4, 16)), isFalse);
     });
 
     test('7 roch before quarter sil is not kor day', () {
